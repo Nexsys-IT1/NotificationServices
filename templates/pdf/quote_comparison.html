@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    width: 100%;
+}
+
+h2 {
+    margin-bottom: 5px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #f4f6f8;
+}
+
+.section {
+    background-color: #e9ecef;
+    font-weight: bold;
+    text-align: left;
+}
+
+.price-row {
+    background-color: #fff4e5;
+    font-weight: bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Quote Comparison</h2>
+
+<p>
+Destination: {{ trip_details.destination }}<br>
+Travel Dates: {{ trip_details.start_date }} to {{ trip_details.end_date }}
+</p>
+
+<table>
+
+<thead>
+<tr>
+<th>Coverage</th>
+
+{% for quote in quotes %}
+<th>
+{{ quote.insurer.name }}<br>
+<small>{{ quote.plan.name }}</small>
+</th>
+{% endfor %}
+
+</tr>
+</thead>
+
+
+<tbody>
+
+{% set coverage_keys = [] %}
+
+{% for quote in quotes %}
+    {% for key in quote.coverages.keys() %}
+        {% if key not in coverage_keys %}
+            {% set _ = coverage_keys.append(key) %}
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+
+
+{% for coverage in coverage_keys %}
+
+<tr>
+
+<td style="text-align:left;">
+{{ coverage.replace('_',' ').title() }}
+</td>
+
+{% for quote in quotes %}
+
+<td>
+
+{% set value = quote.coverages.get(coverage) %}
+
+{% if value == false or value == None or value == "" %}
+❌
+{% else %}
+{{ value }}
+{% endif %}
+
+</td>
+
+{% endfor %}
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+
+<tfoot>
+
+<tr class="price-row">
+
+<td>Price</td>
+
+{% for quote in quotes %}
+
+<td>
+{{ quote.plan.price.currency }} {{ quote.plan.price.amount_with_vat }}
+</td>
+
+{% endfor %}
+
+</tr>
+
+</tfoot>
+
+
+</table>
+
+</div>
+
+</body>
+</html>

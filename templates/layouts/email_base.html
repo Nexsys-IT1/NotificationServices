@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+}
+
+.container {
+    max-width: 700px;
+    margin: auto;
+    background-color: #ffffff;
+}
+
+.header {
+    background-color: #FFD200;
+    padding: 20px;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 0;
+}
+
+.body {
+    padding: 30px;
+}
+
+.footer {
+    background-color: #FFD200;
+    padding: 20px;
+    font-size: 12px;
+    text-align: center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="header">
+        <h2>protego.ae</h2>
+        <div>Powered by RAKBANK</div>
+    </div>
+
+    <!-- BODY -->
+    <div class="body">
+        {{ body_content | safe }}
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+
+        © Copyright by Protego 2024. All rights reserved.
+
+        <br><br>
+
+        Protego Insurance Brokers L.L.C is licensed by The Central Bank of the UAE (CBUAE),
+        Registration number 288. Holder of Health Insurance Intermediary Permit (HIIP)
+        no. BRK-00193 issued by the Dubai Health Authority
+
+    </div>
+
+</div>
+
+</body>
+</html>
