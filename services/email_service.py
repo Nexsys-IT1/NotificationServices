@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 from services.email_template_service import EmailTemplateService
 from services.pdf_service import generate_pdf_from_html
-from email_providers.azure_email_provider import AzureEmailProvider
+from email_providers.provider_factory import get_email_provider
 import os
 
 class EmailService:
@@ -9,8 +9,7 @@ class EmailService:
     def __init__(self, db: Session):
 
         self.template_service = EmailTemplateService(db)
-
-        self.provider = AzureEmailProvider()
+        self.provider = get_email_provider()
 
 
     def attach_logos(self, context):

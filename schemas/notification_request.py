@@ -10,3 +10,5 @@ class NotificationRequest(BaseModel):
     customer_name: str
     trip_details: Dict[str, Any]
     quotes: List[Dict[str, Any]]
+
+    phone_number: int
