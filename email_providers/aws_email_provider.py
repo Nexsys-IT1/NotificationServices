@@ -1,11 +1,10 @@
-from email_providers.base_email_provider import BaseEmailProvider
 from typing import Optional
 import boto3
 import os
 import base64
 
 
-class AWSEmailProvider(BaseEmailProvider):
+class AWSEmailProvider():
 
     def __init__(self):
         self.client = boto3.client(

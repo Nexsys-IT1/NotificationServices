@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 from db.database import get_db
-from services.sms_service import SMSService
 from schemas.notification_request import NotificationRequest
 from services.email_service import EmailService
 
@@ -15,7 +14,10 @@ async def send_email(
     db: Session = Depends(get_db)
 ):
 
-    service = EmailService(db)
+    service = EmailService(
+        db=db,
+        provider_name=request.service
+    )
 
     await service.send_email(
         template_key=request.template_key,
@@ -26,14 +28,14 @@ async def send_email(
     return {"message": "Email sent successfully"}
 
 
-@router.post("/send-sms")
-async def send_sms(request: NotificationRequest):
+# @router.post("/send-sms")
+# async def send_sms(request: NotificationRequest):
 
-    service = SMSService()
+#     service = SMSService()
 
-    await service.send_sms(
-        to_number=request.phone_number,
-        message="Your message here"
-    )
+#     await service.send_sms(
+#         to_number=request.phone_number,
+#         message="Your message here"
+#     )
 
-    return {"message": "SMS sent successfully"}
+#     return {"message": "SMS sent successfully"}

@@ -1,12 +1,11 @@
 from azure.communication.email import EmailClient
-from .base_email_provider import BaseEmailProvider
 import os
 import base64
 from dotenv import load_dotenv
 
 load_dotenv()
 
-class AzureEmailProvider(BaseEmailProvider):
+class AzureEmailProvider():
 
     def __init__(self):
         self.connection_string = os.getenv("AZURE_EMAIL_CONNECTION_STRING")

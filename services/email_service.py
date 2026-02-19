@@ -6,10 +6,10 @@ import os
 
 class EmailService:
 
-    def __init__(self, db: Session):
+    def __init__(self, db: Session, provider_name: str = None):
 
         self.template_service = EmailTemplateService(db)
-        self.provider = get_email_provider()
+        self.provider = get_email_provider(provider_name)
 
 
     def attach_logos(self, context):
