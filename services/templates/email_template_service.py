@@ -1,19 +1,17 @@
 from sqlalchemy.orm import Session
-from jinja2 import Template, Environment, FileSystemLoader
+from jinja2 import Environment, FileSystemLoader, Template
 from models.email_template import EmailTemplate
 
 
 class EmailTemplateService:
 
     def __init__(self, db: Session):
-
         self.db = db
-
         self.layout_env = Environment(
             loader=FileSystemLoader("templates/layouts")
         )
 
-    def get_template(self, template_key: str):
+    def get_template(self, template_key: str) -> EmailTemplate:
 
         template = (
             self.db.query(EmailTemplate)
@@ -22,49 +20,39 @@ class EmailTemplateService:
         )
 
         if not template:
-            raise Exception("Template not found")
+            raise ValueError("Email template not found")
 
         return template
 
-
-    def render_email(self, template_key: str, context: dict):
+    def render_email(self, template_key: str, context: dict) -> str:
 
         db_template = self.get_template(template_key)
 
-        # render DB body
         body_html = Template(
             db_template.email_body
         ).render(**context)
 
-        # wrap with layout
-        layout = self.layout_env.get_template(
-            "email_base.html"
-        )
+        layout = self.layout_env.get_template("email_base.html")
 
-        final_html = layout.render(
-            body_content=body_html
-        )
+        return layout.render(body_content=body_html)
 
-        return final_html
-
-
-    def render_pdf(self, template_key: str, context: dict):
+    def render_pdf(self, template_key: str, context: dict) -> str:
 
         db_template = self.get_template(template_key)
 
+        # If PDF not enabled
         if not db_template.has_pdf:
-            return None
+            return ""
+
+        # If PDF body is empty or NULL
+        if not db_template.pdf_body:
+            raise ValueError("PDF body is missing in database.")
 
         body_html = Template(
             db_template.pdf_body
         ).render(**context)
 
-        layout = self.layout_env.get_template(
-            "pdf_base.html"
-        )
+        layout = self.layout_env.get_template("pdf_base.html")
 
-        final_html = layout.render(
-            body_content=body_html
-        )
+        return layout.render(body_content=body_html)
 
-        return final_html

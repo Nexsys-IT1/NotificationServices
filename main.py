@@ -1,5 +1,14 @@
+import asyncio
+import sys
+from dotenv import load_dotenv
+
+load_dotenv()
+
+if sys.platform == "win32":
+    asyncio.set_event_loop_policy(asyncio.WindowsProactorEventLoopPolicy())
+
 from fastapi import FastAPI
-from routers.notification_router import router
+from api.notification_router import router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
