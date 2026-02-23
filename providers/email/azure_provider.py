@@ -9,7 +9,6 @@ class AzureEmailProvider:
         self.connection_string = os.getenv(
             "AZURE_EMAIL_CONNECTION_STRING"
         )
-        print("AZURE_EMAIL_CONNECTION_STRING:", os.getenv("AZURE_EMAIL_CONNECTION_STRING"))
         self.sender = os.getenv("AZURE_SENDER_EMAIL")
 
         self.client = EmailClient.from_connection_string(
