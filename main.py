@@ -13,10 +13,6 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-@app.get("/")
-def health():
-    return {"status": "Notification Service Running "}
-
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
@@ -36,3 +32,7 @@ app.add_middleware(
 )
  
 app.include_router(router, prefix="/notifications")
+
+@app.get("/")
+def health():
+    return {"status": "Notification Service Running "}
