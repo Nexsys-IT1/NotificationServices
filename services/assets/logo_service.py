@@ -1,6 +1,7 @@
 import os
 import base64
 from typing import Dict, Any
+from pathlib import Path
 
 
 class LogoService:
@@ -11,9 +12,8 @@ class LogoService:
     }
 
     def __init__(self):
-        current_file_dir = os.path.dirname(os.path.abspath(__file__))
-        project_root = os.path.abspath(os.path.join(current_file_dir, "..", ".."))
-        self.base_dir = os.path.join(project_root, "static", "logos")
+        # Resolve project root safely
+        self.base_dir = Path(__file__).resolve().parents[2] / "static" / "logos"
 
     def _encode_logo(self, file_path: str) -> str:
         with open(file_path, "rb") as image_file:
