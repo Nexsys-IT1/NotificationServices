@@ -11,7 +11,9 @@ class LogoService:
     }
 
     def __init__(self):
-        self.base_dir = os.path.join(os.getcwd(), "static", "logos")
+        current_file_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.abspath(os.path.join(current_file_dir, "..", ".."))
+        self.base_dir = os.path.join(project_root, "static", "logos")
 
     def _encode_logo(self, file_path: str) -> str:
         with open(file_path, "rb") as image_file:
@@ -33,6 +35,7 @@ class LogoService:
                 if os.path.exists(file_path):
                     quote["logo_base64"] = self._encode_logo(file_path)
                 else:
+                    print("Logo file not found:", file_path)
                     quote["logo_base64"] = None
             else:
                 quote["logo_base64"] = None
