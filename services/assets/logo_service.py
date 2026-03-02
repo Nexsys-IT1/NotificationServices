@@ -8,7 +8,7 @@ class LogoService:
     LOGO_MAP = {
         "RAKINSURANCE": "rak.png",
         "GIG": "gig.png",
-        "AIG": "aig.png",
+        "American International Group, Inc.": "aig.png",
     }
 
     def __init__(self):
